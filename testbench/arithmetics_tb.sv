@@ -25,7 +25,7 @@ module cpu_tb;
 
         #1000;
 
-        $display("OUTPUT: %0d", cpu_instance.outport_instance.binary_display);
+        $display("OUTPUT: %0d", cpu_instance.outport_display);
 
         $finish;
     end
