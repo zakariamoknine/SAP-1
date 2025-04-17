@@ -17,7 +17,6 @@ module cpu (
     wire[3:0] mar_address_value;
 
     wire ram_output_enable;
-    wire[3:0] ram_address_value;
 
     wire accumulator_write_enable;
     wire accumulator_output_enable;
@@ -31,8 +30,6 @@ module cpu (
 
     wire outport_write_enable;
     wire[7:0] outport_display;
-
-    assign ram_address_value = mar_address_value;
 
     controller controller_instance (
         .clk(clk),
@@ -78,7 +75,7 @@ module cpu (
 
     ram ram_instance (
         .output_enable(ram_output_enable),
-        .memory_address(ram_address_value),
+        .memory_address(mar_address_value),
         .ram_output_bus(main_data_bus)
     );
 
