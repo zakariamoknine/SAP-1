@@ -7,7 +7,7 @@ This is an implementation of SAP-1 in Verilog, with an assembler and an emulator
 # Architecture
 
 <p float="left">
-  <img src="/docs/images/arch.png" alt="SAP-1" width="54%">
+  <img src="/docs/images/arch.png" alt="SAP-1" width="56%">
 </p>
 
 # ISA
