@@ -146,7 +146,7 @@ module controller (
                         accumulator_write_enable = 1'b1;
                     end
                     OUT: begin
-                        // no nothing
+                        // do nothing
                     end
                     HLT: begin
                         // do nothing
