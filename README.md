@@ -5,6 +5,6 @@ SAP-1 (Simple-As-Possible-1) is a bus-organized 8-bit CPU designed by Albert Pau
 # Architecture
 
 <p float="left">
-  <img src="/docs/images/arch.png" alt="SAP-1">
+  <img src="/docs/images/arch.png" alt="SAP-1" width="50%">
 </p>
 
