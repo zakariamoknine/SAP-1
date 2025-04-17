@@ -1,15 +1,15 @@
 RTLSRC := $(wildcard rtl/*.sv)
 
-all:
-
-test:
-	mkdir -p out
-	iverilog $(RTLSRC) testbench/arithmetics_tb.sv -o out/arithmetics_design
-	vvp out/arithmetics_design
+all: test_add test_sub
 
 %:
 	mkdir -p out
 	iverilog rtl/$*.sv testbench/$*_tb.sv -o out/$*_design
+	vvp out/$*_design
+
+test_%:
+	mkdir -p out
+	iverilog $(RTLSRC) testbench/$*_tb.sv -o out/$*_design
 	vvp out/$*_design
 
 show_%:

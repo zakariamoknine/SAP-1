@@ -13,19 +13,21 @@ module cpu_tb;
     always #5 clk = ~clk;
 
     initial begin
-        $dumpfile("out/cpu_wave.vcd");
+        $dumpfile("out/sub_wave.vcd");
         $dumpvars(0, cpu_tb);
 
         clear = 1;
 
-        $readmemb("testbench/applications/arithmetics.bin", cpu_instance.ram_instance.ram_memory);
+        $readmemb("testbench/binary/sub.bin", cpu_instance.ram_instance.ram_memory);
 
         #20;
         clear = 0;
 
         #1000;
-
+        $display("\n=== Testing: sub.bin ============\n");
+        $display("OPERATION: 85 - 22");
         $display("OUTPUT: %0d", cpu_instance.outport_display);
+        $display("\n=================================\n");
 
         $finish;
     end
