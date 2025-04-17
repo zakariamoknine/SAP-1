@@ -15,5 +15,3 @@ This is an implementation of SAP-1 in Verilog, with an assembler and an emulator
 <p float="left">
   <img src="/docs/images/isa.png" alt="ISA" width="90%">
 </p>
-
-
