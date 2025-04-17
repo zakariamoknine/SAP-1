@@ -1,6 +1,5 @@
 RTLSRC := $(wildcard rtl/*.sv)
 
-
 all:
 
 test:
@@ -19,5 +18,4 @@ show_%:
 clean:
 	rm -rf out
 
-
-.PHONY: all clean
+.PHONY: all test clean
