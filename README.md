@@ -10,3 +10,7 @@ This is an implementation of SAP-1 in Verilog, with an assembler and an emulator
   <img src="/docs/images/arch.png" alt="SAP-1" width="60%">
 </p>
 
+<p float="left">
+  <img src="/docs/images/isa.png" alt="SAP-1" width="90%">
+</p>
+
