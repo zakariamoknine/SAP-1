@@ -1,6 +1,8 @@
 # SAP-1
 
-SAP-1 (Simple-As-Possible-1) is a bus-organized 8-bit CPU designed by Albert Paul Malvino in his book "Digital Computer Electronics", I decided to implement SAP-1 in Verilog, and write an assembler and an emulator for it in C.
+SAP-1 (Simple-As-Possible-1) is a bus-organized 8-bit CPU designed by Albert Paul Malvino in his book "Digital Computer Electronics".
+
+This is an implementation of SAP-1 in Verilog, with an assembler and an emulator for it written in C99.
 
 # Architecture
 
