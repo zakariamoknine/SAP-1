@@ -86,8 +86,6 @@ module controller (
                 ram_output_enable = 1'b1;
             end
             T4: begin
-
-
                 case (instruction_operation_code)
                     LDA: begin
                         mar_write_enable = 1'b1;
