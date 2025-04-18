@@ -8,7 +8,7 @@ module controller (
     output reg accumulator_write_enable,
 
     output reg alu_output_enable,
-    output reg alu_decoded_alu_mux,
+    output reg alu_operation_selection,
 
     output reg instruction_write_enable,
     output reg instruction_output_enable,
@@ -18,13 +18,14 @@ module controller (
     output reg outport_write_enable,
 
     output reg pc_output_enable,
-    output reg pc_pc_increment,
+    output reg pc_increment,
 
     output reg ram_output_enable,
 
     output reg register_write_enable
 );
 
+    // states
     localparam T1 = 3'b001;
     localparam T2 = 3'b010;
     localparam T3 = 3'b011;
@@ -32,6 +33,7 @@ module controller (
     localparam T5 = 3'b101;
     localparam T6 = 3'b110;
 
+    // operation codes
     localparam LDA = 4'b0000;
     localparam ADD = 4'b0001;
     localparam SUB = 4'b0010;
@@ -63,12 +65,12 @@ module controller (
         accumulator_output_enable = 1'b0;
         accumulator_write_enable = 1'b0;
         alu_output_enable = 1'b0;
-        alu_decoded_alu_mux = 1'b0;
+        alu_operation_selection = 1'b0;
         instruction_output_enable = 1'b0;
         mar_write_enable = 1'b0;
         outport_write_enable = 1'b0;
         pc_output_enable = 1'b0;
-        pc_pc_increment = 1'b0;
+        pc_increment = 1'b0;
         register_write_enable = 1'b0;
         instruction_write_enable = 1'b0;
         ram_output_enable = 1'b0;
@@ -79,7 +81,7 @@ module controller (
                 mar_write_enable = 1'b1;
             end
             T2: begin
-                pc_pc_increment = 1'b1;
+                pc_increment = 1'b1;
             end
             T3: begin
                 instruction_write_enable = 1'b1;
@@ -136,12 +138,12 @@ module controller (
                         // do nothing
                     end
                     ADD: begin
-                        alu_decoded_alu_mux = 1'b0; // ALU_ADD: 0, ALU_SUB: 1
+                        alu_operation_selection = 1'b0; // ALU_ADD: 0, ALU_SUB: 1
                         alu_output_enable = 1'b1;
                         accumulator_write_enable = 1'b1;
                     end
                     SUB: begin
-                        alu_decoded_alu_mux = 1'b1; // ALU_ADD: 0, ALU_SUB: 1
+                        alu_operation_selection = 1'b1; // ALU_ADD: 0, ALU_SUB: 1
                         alu_output_enable = 1'b1;
                         accumulator_write_enable = 1'b1;
                     end

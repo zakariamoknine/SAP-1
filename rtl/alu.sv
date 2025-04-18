@@ -1,12 +1,12 @@
 module alu (
     input wire output_enable,
 
-    input wire decoded_alu_mux,
+    input wire operation_selection,
 
-    input wire[7:0] accumulator_value,
-    input wire[7:0] register_value,
+    input wire[7:0] accumulator_arithmetic_value,
+    input wire[7:0] register_arithmetic_value,
 
-    output wire[7:0] alu_output_bus
+    output wire[7:0] output_bus_connection
 );
 
     reg[7:0] alu_result;
@@ -15,16 +15,16 @@ module alu (
     localparam SUB = 1'b1;
 
     always @(*) begin
-        case (decoded_alu_mux)
+        case (operation_selection)
             ADD: begin
-                alu_result <= accumulator_value + register_value;
+                alu_result <= accumulator_arithmetic_value + register_arithmetic_value;
             end
             SUB: begin
-                alu_result <= accumulator_value - register_value;
+                alu_result <= accumulator_arithmetic_value - register_arithmetic_value;
             end
         endcase
     end
 
-    assign alu_output_bus = output_enable ? alu_result : 8'bZ;
+    assign output_bus_connection = output_enable ? alu_result : 8'bZ;
 
 endmodule
