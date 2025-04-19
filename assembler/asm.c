@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <ctype.h>
+
 #ifndef SAP1_FALSE
     #define SAP1_FALSE 0
 #endif
@@ -81,9 +83,27 @@ static int _assembler_parse()
 
         if (datafound)
         {
-            uint8_t a = 2;
-            if (!_assembler_check_uint8("23", &a))
+            char* var_name = _assembler.tokens[i][0];
+            char* var_equal_sign = _assembler.tokens[i][1];
+            char* var_value_str = _assembler.tokens[i][2];
+
+            if (!var_name || !var_equal_sign || !var_value_str || strcmp(var_equal_sign, "="))
             {
+                fprintf(stderr, "ERROR: .data section, Invalid syntax\n");
+                return SAP1_FALSE;
+            }
+
+            if (isdigit(var_name[0]))
+            {
+                fprintf(stderr, "ERROR: Variable name cannot start with a digit/number\n");
+                return SAP1_FALSE;
+            }
+
+            uint8_t var_value;
+            if (!_assembler_check_uint8(var_value_str, &var_value))
+            {
+                fprintf(stderr, "ERROR: .data section: Invalid value used for variable assignement\n");
+                return SAP1_FALSE;
             }
         }
     }
