@@ -1,9 +1,8 @@
 all:
-	rm -rf asm f.bin
-	gcc -o asm asm.c
-	./asm p.asm f.bin
+	mkdir -p ../out/bin
+	gcc -o ../out/bin/sap1-asm asm.c
 
 clean:
-	rm -rf asm f.bin
+	rm -rf ../out/bin
 
 .PHONY: all clean
