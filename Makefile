@@ -1,4 +1,4 @@
-RTLSRC := $(wildcard rtl/*.sv)
+RTLSRC := $(wildcard rtl/*.v)
 ASMBIN := sap1-asm
 
 all: test_add test_sub test_arith
