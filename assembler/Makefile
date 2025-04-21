@@ -1,6 +1,9 @@
+CC := gcc
+ASMBIN := sap1-asm
+
 all:
 	mkdir -p ../out/bin
-	gcc -o ../out/bin/sap1-asm asm.c
+	$(CC) -o ../out/bin/$(ASMBIN) asm.c
 
 clean:
 	rm -rf ../out/bin
