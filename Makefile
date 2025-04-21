@@ -1,14 +1,18 @@
 RTLSRC := $(wildcard rtl/*.sv)
 
-all: test_add test_sub
+all: test_add test_sub test_arith
+
+assembler:
+	make -C assembler
 
 %:
 	mkdir -p out
 	iverilog rtl/$*.sv testbench/$*_tb.sv -o out/$*_design
 	vvp out/$*_design
 
-test_%:
-	mkdir -p out
+test_%: assembler
+	mkdir -p testbench/binary
+	./out/bin/sap1-asm testbench/assembly/$*.asm testbench/binary/$*.bin
 	iverilog $(RTLSRC) testbench/$*_tb.sv -o out/$*_design
 	vvp out/$*_design
 
@@ -18,4 +22,4 @@ show_%:
 clean:
 	rm -rf out
 
-.PHONY: all test clean
+.PHONY: all assembler clean
