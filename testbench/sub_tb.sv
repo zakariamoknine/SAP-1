@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module cpu_tb;
+module sub_tb;
 
     reg clk = 0;
     reg clear = 1;
@@ -14,7 +14,7 @@ module cpu_tb;
 
     initial begin
         $dumpfile("out/sub_wave.vcd");
-        $dumpvars(0, cpu_tb);
+        $dumpvars(0, sub_tb);
 
         clear = 1;
 
@@ -25,7 +25,7 @@ module cpu_tb;
 
         #1000;
         $display("\n=== Testing: sub.bin ============\n");
-        $display("OPERATION: 85 - 22");
+        $display("OPERATION: 215 - 79");
         $display("OUTPUT: %0d", cpu_instance.outport_display);
         $display("\n=================================\n");
 

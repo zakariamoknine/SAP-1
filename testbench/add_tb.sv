@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module cpu_tb;
+module add_tb;
 
     reg clk = 0;
     reg clear = 1;
@@ -14,7 +14,7 @@ module cpu_tb;
 
     initial begin
         $dumpfile("out/add_wave.vcd");
-        $dumpvars(0, cpu_tb);
+        $dumpvars(0, add_tb);
 
         clear = 1;
 
@@ -26,7 +26,7 @@ module cpu_tb;
         #1000;
 
         $display("\n=== Testing: add.bin ============\n");
-        $display("OPERATION: 52 + 64");
+        $display("OPERATION: 19 + 43");
         $display("OUTPUT: %0d", cpu_instance.outport_display);
         $display("\n=================================\n");
 
