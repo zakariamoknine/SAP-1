@@ -9,7 +9,7 @@ assembler:
 test_%: assembler
 	mkdir -p testbench/binary
 	./out/bin/$(ASMBIN) testbench/assembly/$*.asm testbench/binary/$*.bin
-	iverilog $(RTLSRC) testbench/$*_tb.sv -o out/$*_design
+	iverilog $(RTLSRC) testbench/$*_tb.v -o out/$*_design
 	vvp out/$*_design
 
 show_%:
