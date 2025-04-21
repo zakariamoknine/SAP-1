@@ -45,7 +45,7 @@ _start:     ; entry point must exist with the label _start
 
 # Usage
 
-For simulation, you'll need to install [iverilog](https://github.com/steveicarus/iverilog), and optionally [gtkwave](https://github.com/gtkwave/gtkwave) for viewing waveform files.
+For simulation, you'll need to install [iverilog](https://github.com/steveicarus/iverilog) and optionally [gtkwave](https://github.com/gtkwave/gtkwave) for viewing waveform files.
 
 You will also need a C compiler (e.g., `gcc`, `clang`) - for compiling the assembler, by default gcc is used, but you can configure assembler/Makefile to use a different compiler.
 
@@ -57,14 +57,14 @@ $ make
 ```
 
 
-You can run specific tests individually, for example to run `add.asm`
+You can run specific tests individually, for example to test `add.asm` run
 
 ```bash
 $ make test_add
 ```
 
 
-To view waveforms using `gtkwave`
+To view waveforms using `gtkwave` run
 
 ```bash
 $ make show_add
