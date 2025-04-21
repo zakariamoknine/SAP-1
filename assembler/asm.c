@@ -79,11 +79,9 @@ static int _assembler_check_uint8(const char* str, uint8_t* out)
 
 void _assembler_uint8_to_binary_string(uint8_t value, char* binary_str) 
 {
-    for (int i = 7; i >= 0; i--) 
-    {
+    for (int i = 7; i >= 0; i--) {
         binary_str[7 - i] = (value & (1 << i)) ? '1' : '0';
     }
-
     binary_str[8] = '\0';
 }
 
@@ -91,48 +89,39 @@ static void _assembler_gen_binary()
 {
     char outbin[16][9] = { 0 };
 
-    for (int i = 0; i < 16; i++)
-    {
+    for (int i = 0; i < 16; i++) {
         memset(outbin[i], '0', 8);
         outbin[i][8] = '\0';
     }
 
     char valbinstr[9];
-    for (int i = 0; i < _assembler.variables_count; i++)
-    {
+    for (int i = 0; i < _assembler.variables_count; i++) {
         _assembler_uint8_to_binary_string(_assembler.variables[i].value, valbinstr);
         strcpy(outbin[_assembler.variables[i].address], valbinstr);
     }
 
     char instrbinstr[9] = { 0 };
     char finalinstrbuff[9];
-    for (int i = 0; i< _assembler.instructions_count; i++)
-    {
+    for (int i = 0; i< _assembler.instructions_count; i++) {
         uint8_t operand = _assembler.instructions[i].operand;
 
-        for (int j = 7; j >= 0; j--)
-        {
+        for (int j = 7; j >= 0; j--) {
             instrbinstr[7 - j] = (operand & (1 << j)) ? '1' : '0';
         }
 
-        if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[0]))
-        {
+        if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[0])) {
             snprintf(finalinstrbuff, 9, "%s%s", "0000", instrbinstr + 4);
         }
-        else if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[1]))
-        {
+        else if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[1])) {
             snprintf(finalinstrbuff, 9, "%s%s", "0001", instrbinstr + 4);
         }
-        else if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[2]))
-        {
+        else if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[2])) {
             snprintf(finalinstrbuff, 9, "%s%s", "0010", instrbinstr + 4);
         }
-        else if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[3]))
-        {
+        else if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[3])) {
             snprintf(finalinstrbuff, 9, "%s%s", "1110", instrbinstr + 4);
         }
-        else if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[4]))
-        {
+        else if (!strcmp(_assembler.instructions[i].opcode, _sap1_opcodes[4])) {
             snprintf(finalinstrbuff, 9, "%s%s", "1111", instrbinstr + 4);
         }
 
@@ -141,8 +130,7 @@ static void _assembler_gen_binary()
         strcpy(outbin[i], finalinstrbuff);
     }
 
-    for(int i = 0; i < 16; i++)
-    {
+    for(int i = 0; i < 16; i++) {
         fprintf(stdout, "%s\n", outbin[i]);
     }
 }
@@ -154,45 +142,37 @@ static int _assembler_parse()
     int varcount = 0;
     int varaddress = 15;
 
-    for (int i = 0; i < _assembler.lexlines; i++)
-    {
-        if (!strcmp(_assembler.tokens[i][0], SAP1_DATE_SECTION_STR)) 
-        { 
+    for (int i = 0; i < _assembler.lexlines; i++) {
+        if (!strcmp(_assembler.tokens[i][0], SAP1_DATE_SECTION_STR)) { 
             datafound = SAP1_TRUE;
             continue;
         }
 
         if (!strcmp(_assembler.tokens[i][0], SAP1_TEXT_SECTION_STR)) { break; }
 
-        if (datafound)
-        {
+        if (datafound) {
             char* var_name = _assembler.tokens[i][0];
             char* var_equal_sign = _assembler.tokens[i][1];
             char* var_value_str = _assembler.tokens[i][2];
 
-            if (!var_name || !var_equal_sign || !var_value_str || strcmp(var_equal_sign, "="))
-            {
+            if (!var_name || !var_equal_sign || !var_value_str || strcmp(var_equal_sign, "=")) {
                 fprintf(stderr, "ERROR: .data section: Invalid syntax\n");
                 return SAP1_FALSE;
             }
 
-            if (isdigit(var_name[0]))
-            {
+            if (isdigit(var_name[0])) {
                 fprintf(stderr, "ERROR: .data section: Variable name cannot start with a digit/number\n");
                 return SAP1_FALSE;
             }
 
             uint8_t var_value;
-            if (!_assembler_check_uint8(var_value_str, &var_value))
-            {
+            if (!_assembler_check_uint8(var_value_str, &var_value)) {
                 fprintf(stderr, "ERROR: .data section: Invalid value used for variable assignment\n");
                 return SAP1_FALSE;
             }
 
-            for (int j = 0; j < varcount; j++) 
-            {
-                if (!strcmp(var_name, _assembler.variables[j].name)) 
-                {
+            for (int j = 0; j < varcount; j++) {
+                if (!strcmp(var_name, _assembler.variables[j].name)) {
                     fprintf(stderr, "ERROR: .data section: Duplicate variable name: '%s'\n", var_name);
                     return SAP1_FALSE;
                 }
@@ -206,8 +186,7 @@ static int _assembler_parse()
             varcount++;
             varaddress--;
 
-            if (varcount > SAP1_MAX_VARIABLES_PER_FILE)
-            {
+            if (varcount > SAP1_MAX_VARIABLES_PER_FILE) {
                 fprintf(stderr, "ERROR: .data section: You can't assign more than %d variables\n", SAP1_MAX_VARIABLES_PER_FILE);
                 return SAP1_FALSE;
             }
@@ -218,71 +197,57 @@ static int _assembler_parse()
 
     int entryfound = SAP1_FALSE;
 
-    for (int i = 0; i < _assembler.lexlines; i++)
-    {
-        if (!strcmp(_assembler.tokens[i][0], SAP1_ENTRY_POINT_STR)) 
-        { 
+    for (int i = 0; i < _assembler.lexlines; i++) {
+        if (!strcmp(_assembler.tokens[i][0], SAP1_ENTRY_POINT_STR)) { 
             entryfound = SAP1_TRUE;
             continue;
         }
 
-        if (entryfound)
-        {
+        if (entryfound) {
             char* opcode = _assembler.tokens[i][0];
             char* operand = _assembler.tokens[i][1];
 
-            if (_assembler.tokens[i][2][0] != '\0')
-            {
+            if (_assembler.tokens[i][2][0] != '\0') {
                 fprintf(stderr, "ERROR: .text section: Invalid syntax, too many operands per instruction\n");
                 return SAP1_FALSE;
             }
 
-            if (strlen(opcode) != 3)
-            {
+            if (strlen(opcode) != 3) {
                 fprintf(stderr, "ERROR: .text section: Invalid instruction operation code\n");
                 return SAP1_FALSE;
             }
 
             int validopcode = SAP1_FALSE;
-            for (int j = 0; j < 5; j++)
-            {
-                if (!strcmp(opcode, _sap1_opcodes[j]))
-                {
+            for (int j = 0; j < 5; j++) {
+                if (!strcmp(opcode, _sap1_opcodes[j])) {
                     validopcode = SAP1_TRUE;
                 }
             }
 
-            if (!validopcode)
-            {
+            if (!validopcode) {
                 fprintf(stderr, "ERROR: .text section: Invalid instruction operation code\n");
                 return SAP1_FALSE;
             }
 
-            if (!strcmp(opcode, "OUT") || !strcmp(opcode, "HLT"))
-            {
-                if (operand[0] != '\0')
-                {
+            if (!strcmp(opcode, "OUT") || !strcmp(opcode, "HLT")) {
+                if (operand[0] != '\0') {
                     fprintf(stderr, "ERROR: .text section: OUT and HLT instructions require no operand\n");
                     return SAP1_FALSE;
                 }
 
                 strcpy(_assembler.instructions[_assembler.instructions_count].opcode, opcode);
             }
-            else
-            {
+            else {
                 int validvar = SAP1_FALSE;
-                for(int j = 0; j < _assembler.variables_count; j++)
-                {
-                    if (!strcmp(operand, _assembler.variables[j].name))
-                    {
+                for(int j = 0; j < _assembler.variables_count; j++) {
+                    if (!strcmp(operand, _assembler.variables[j].name)) {
                         strcpy(_assembler.instructions[_assembler.instructions_count].opcode, opcode);
                         _assembler.instructions[_assembler.instructions_count].operand = _assembler.variables[j].address;
                         validvar = SAP1_TRUE;
                     }
                 }
 
-                if (!validvar)
-                {
+                if (!validvar) {
                     fprintf(stderr, "ERROR: .text section: Unknown variable used as operand\n");
                     return SAP1_FALSE;
                 }
@@ -290,16 +255,14 @@ static int _assembler_parse()
 
             _assembler.instructions_count++;
 
-            if (_assembler.instructions_count > SAP1_MAX_INSTRUCTIONS_PER_FILE) 
-            {
+            if (_assembler.instructions_count > SAP1_MAX_INSTRUCTIONS_PER_FILE) {
                 fprintf(stderr, "ERROR: .text section: Too many instructions, program doesn't fit on SAP-1's 16 bytes of memory\n");
                 return SAP1_FALSE;
             }
         }
     }
 
-    if (_assembler.variables_count + _assembler.instructions_count > 16)
-    {
+    if (_assembler.variables_count + _assembler.instructions_count > 16) {
         fprintf(stderr, "ERROR: Too many variables/instructions, program doesn't fit on SAP-1's 16 bytes of memory\n");
         return SAP1_FALSE;
     }
@@ -313,13 +276,10 @@ static int _assembler_lex()
     int line = 1;
 
     char* token;
-    while (fgets(linestr, sizeof(linestr) ,stdin))
-    {
+    while (fgets(linestr, sizeof(linestr) ,stdin)) {
         // trauncate comments
-        for (int i = 0; i < strlen(linestr); i++)
-        {
-            if (linestr[i] == ';')
-            {
+        for (int i = 0; i < strlen(linestr); i++) {
+            if (linestr[i] == ';') {
                 linestr[i] = '\0';
                 break;
             }
@@ -331,16 +291,12 @@ static int _assembler_lex()
         if (linestr[j] == '\n' || linestr[j] == '\0') continue;
 
         // add extra spaces around '=' sign for easier tokenization
-        for (int i = 0; linestr[i]; i++)
-        {
-            if (linestr[i] == '=') 
-            {
+        for (int i = 0; linestr[i]; i++) {
+            if (linestr[i] == '=') {
                 memmove(&linestr[i + 2], &linestr[i + 1], strlen(&linestr[i + 1]) + 1);
                 linestr[i + 1] = ' ';
-
                 memmove(&linestr[i + 1], &linestr[i], strlen(&linestr[i]) + 1);
                 linestr[i] = ' ';
-
                 i += 2;
             }
         }
@@ -348,10 +304,8 @@ static int _assembler_lex()
         // tokenize and store tokens
         int tokeni = 0;
         token = strtok(linestr, " \t\n");
-        while (token != NULL)
-        {
-            if (strlen(token) > SAP1_MAX_CHARS_PER_TOKEN)
-            {
+        while (token != NULL) {
+            if (strlen(token) > SAP1_MAX_CHARS_PER_TOKEN) {
                 fprintf(stderr, "ERROR: Invalid syntax, you can't name varibales very large names\n");
                 return SAP1_FALSE;
             }
@@ -363,8 +317,7 @@ static int _assembler_lex()
             tokeni++;
         }
 
-        if (tokeni > SAP1_MAX_TOKENS_PER_LINE)
-        {
+        if (tokeni > SAP1_MAX_TOKENS_PER_LINE) {
             fprintf(stderr, "ERROR: Invalid syntax\n");
             return SAP1_FALSE;
         }
@@ -381,28 +334,22 @@ static int _assembler_lex()
     
     int expectingentry = SAP1_FALSE;
 
-    for (int i = 0; i < _assembler.lexlines; i++)
-    {
+    for (int i = 0; i < _assembler.lexlines; i++) {
         if (_assembler.tokens[i][0][0] == '\0') { continue; }
 
-        if (expectingentry)
-        {
-            if (!strcmp(_assembler.tokens[i][0], SAP1_ENTRY_POINT_STR))
-            {
+        if (expectingentry) {
+            if (!strcmp(_assembler.tokens[i][0], SAP1_ENTRY_POINT_STR)) {
                 startfound = SAP1_TRUE;
                 expectingentry = SAP1_FALSE;
             }
-            else
-            {
+            else {
                 fprintf(stderr, "ERROR: An entry point labeled %s must immediately follow the .text section\n", SAP1_ENTRY_POINT_STR);
                 return SAP1_FALSE;
             }
         }
 
-        if (!strcmp(_assembler.tokens[i][0], SAP1_DATE_SECTION_STR))
-        {
-            if (textfound)
-            {
+        if (!strcmp(_assembler.tokens[i][0], SAP1_DATE_SECTION_STR)) {
+            if (textfound) {
                 fprintf(stderr, "ERROR: .data section must come before the .text section\n");
                 return SAP1_FALSE;
             }
@@ -410,27 +357,23 @@ static int _assembler_lex()
             datafound = SAP1_TRUE;
         }
 
-        if (!strcmp(_assembler.tokens[i][0], SAP1_TEXT_SECTION_STR))
-        {
+        if (!strcmp(_assembler.tokens[i][0], SAP1_TEXT_SECTION_STR)) {
             textfound = SAP1_TRUE;
             expectingentry = SAP1_TRUE;
         }
     }
 
-    if (!startfound)
-    {
+    if (!startfound) {
         fprintf(stderr, "ERROR: Entry point not found, add an entry point labeled %s immediately following .text section\n", SAP1_ENTRY_POINT_STR);
         return SAP1_FALSE;
     }
 
-    if (!datafound)
-    {
+    if (!datafound) {
         fprintf(stderr, "ERROR: .data section not found, it must exist even if empty\n");
         return SAP1_FALSE;
     }
 
-    if (!textfound)
-    {
+    if (!textfound) {
         fprintf(stderr, "ERROR: .text section not found\n");
         return SAP1_FALSE;
     }
@@ -440,20 +383,17 @@ static int _assembler_lex()
 
 static int _assembler_parse_arguments(int argc, char** argv)
 {
-    if (argc == 1)
-    {
+    if (argc == 1) {
         fprintf(stderr, "ERROR: No input, provide a single assembly file and the ouput file\n");
         fprintf(stderr, "\nExample:\n$ ./sap1-asm file_dir/file.asm output_dir/output.bin\n");
         return SAP1_FALSE;
     }
-    else if (argc == 2)
-    {
+    else if (argc == 2) {
         fprintf(stderr, "ERROR: A single file provided, provide a single assembly file AND the ouput file\n");
         fprintf(stderr, "\nExample:\n$ ./sap1-asm file_dir/file.asm output_dir/output.bin\n");
         return SAP1_FALSE;
     }
-    else if (argc > 3)
-    {
+    else if (argc > 3) {
         fprintf(stderr, "ERROR: Too many arguments, provide a single asssembly file and the output file\n");
         fprintf(stderr, "\nExample:\n$ ./sap1-asm file_dir/file.asm output_dir/output.bin\n");
         return SAP1_FALSE;
@@ -462,14 +402,12 @@ static int _assembler_parse_arguments(int argc, char** argv)
     _assembler.filepath = argv[1];
     _assembler.binarypath = argv[2];
     
-    if (!freopen(_assembler.filepath, "r", stdin))
-    {
+    if (!freopen(_assembler.filepath, "r", stdin)) {
         fprintf(stderr, "ERROR: Can't open: %s\nNo such a file or directory\n", _assembler.filepath);
         return SAP1_FALSE;
     }
 
-    if (!freopen(_assembler.binarypath, "w", stdout))
-    {
+    if (!freopen(_assembler.binarypath, "w", stdout)) {
         fprintf(stderr, "ERROR: Can't open/create %s\nDirectory doesn't exist or permission denied\n", _assembler.binarypath);
         return SAP1_FALSE;
     }
