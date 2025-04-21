@@ -18,14 +18,14 @@ This is an implementation of SAP-1 in Verilog, along with an assembler written i
 
 # Assembler
 
-Example
+### Example
 
 ```asm
 .data       ; begin .data section, this section must exist and
             ; come before the .text section
 
 a = 19      ; variable 'a' assigned to 19
-            ; variables are to be 8-bit long, between 0 and 255
+            ; variables are to be 8-bit long unsigned integers
 
 b = 43      ; variable 'b' assigned to 43
 
@@ -47,21 +47,25 @@ _start:     ; entry point must exist with the label _start
 
 For simulation, you'll need to install [iverilog](https://github.com/steveicarus/iverilog), and optionally [gtkwave](https://github.com/gtkwave/gtkwave) for viewing waveform files.
 
-You will also need a C compiler (e.g., `gcc`, `clang`) - for compilng the assembler, by default gcc is used, you can configure assembelr/Makefile to use a different compiler.
+You will also need a C compiler (e.g., `gcc`, `clang`) - for compiling the assembler, by default gcc is used, but you can configure assembler/Makefile to use a different compiler.
 
 
 To compile the assembler, assemble the tests, simulate the tests, display ouputs, and generate waveforms, simply run
 
-`$ make`
+```bash
+$ make
+```
 
 
 You can run specific tests individually, for example to run `add.asm`
 
-`$ make test_add`
+```bash
+$ make test_add
+```
 
 
 To view waveforms using `gtkwave`
 
-`$ make show_add`
-
-this will compile the assembler using  
+```bash
+$ make show_add
+```
