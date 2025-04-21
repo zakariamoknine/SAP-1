@@ -15,3 +15,53 @@ This is an implementation of SAP-1 in Verilog, along with an assembler written i
 <p float="left">
   <img src="/docs/images/isa.png" alt="ISA" width="90%">
 </p>
+
+# Assembler
+
+Example
+
+```asm
+.data       ; begin .data section, this section must exist and
+            ; come before the .text section
+
+a = 19      ; variable 'a' assigned to 19
+            ; variables are to be 8-bit long, between 0 and 255
+
+b = 43      ; variable 'b' assigned to 43
+
+.text       ; begin .text section
+
+_start:     ; entry point must exist with the label _start
+
+    LDA a   ; load the variable 'a' to the accumulator register
+
+    ADD b   ; add the accumulator's content to the variable 'b'
+            ; store the result in the accumulator register
+
+    OUT     ; display the accumulator's content in the display port
+
+    HLT     ; halt the CPU
+```
+
+# Usage
+
+For simulation, you'll need to install [iverilog](https://github.com/steveicarus/iverilog), and optionally [gtkwave](https://github.com/gtkwave/gtkwave) for viewing waveform files.
+
+You will also need a C compiler (e.g., `gcc`, `clang`) - for compilng the assembler, by default gcc is used, you can configure assembelr/Makefile to use a different compiler.
+
+
+To compile the assembler, assemble the tests, simulate the tests, display ouputs, and generate waveforms, simply run
+
+`$ make`
+
+
+You can run specific tests individually, for example to run `add.asm`
+
+`$ make test_add`
+
+
+To view waveforms using `gtkwave`
+
+`$ make show_add`
+
+this will compile the assembler using  
