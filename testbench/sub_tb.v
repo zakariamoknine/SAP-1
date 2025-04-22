@@ -16,14 +16,16 @@ module sub_tb;
         $dumpfile("out/sub_wave.vcd");
         $dumpvars(0, sub_tb);
 
+        $readmemb("out/bin/sub.bin", cpu_instance.ram_instance.ram_memory);
+        
         clear = 1;
 
-        $readmemb("testbench/binary/sub.bin", cpu_instance.ram_instance.ram_memory);
-
         #20;
+
         clear = 0;
 
         #1000;
+
         $display("\n=== Testing: sub.bin ============\n");
         $display("OPERATION: 215 - 79");
         $display("OUTPUT: %0d", cpu_instance.outport_display);

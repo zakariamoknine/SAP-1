@@ -15,12 +15,12 @@ module add_tb;
     initial begin
         $dumpfile("out/add_wave.vcd");
         $dumpvars(0, add_tb);
+        $readmemb("out/bin/add.bin", cpu_instance.ram_instance.ram_memory);
 
         clear = 1;
 
-        $readmemb("testbench/binary/add.bin", cpu_instance.ram_instance.ram_memory);
-
         #20;
+
         clear = 0;
 
         #1000;
