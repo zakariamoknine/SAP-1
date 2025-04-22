@@ -3,12 +3,12 @@ ASMBIN := sap1-asm
 
 all: test_add test_sub test_arith
 
-assembler:
+asm:
 	make -C assembler
 
-test_%: assembler
-	mkdir -p testbench/binary
-	./out/bin/$(ASMBIN) testbench/assembly/$*.asm testbench/binary/$*.bin
+test_%: asm
+	mkdir -p out/bin/
+	./out/bin/$(ASMBIN) testbench/assembly/$*.asm out/bin/$*.bin
 	iverilog $(RTLSRC) testbench/$*_tb.v -o out/$*_design
 	vvp out/$*_design
 
@@ -18,4 +18,4 @@ show_%:
 clean:
 	rm -rf out
 
-.PHONY: all assembler clean
+.PHONY: all asm clean
