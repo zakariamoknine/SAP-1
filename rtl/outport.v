@@ -7,14 +7,14 @@ module outport (
     output wire[7:0] binary_display
 );
 
-    reg[7:0] outport_buffer;
+    reg[7:0] outport_reg;
 
     always @(posedge clk) begin
         if (write_enable) begin
-            outport_buffer <= input_bus_connection;
+            outport_reg <= input_bus_connection;
         end
     end
 
-    assign binary_display = outport_buffer;
+    assign binary_display = outport_reg;
 
 endmodule

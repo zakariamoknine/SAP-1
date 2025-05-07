@@ -9,17 +9,17 @@ module instruction (
     inout wire[7:0] inout_bus_connection
 );
 
-    reg[7:0] instruction_buffer;
+    reg[7:0] instruction_reg;
 
     always @(posedge clk) begin
         if (clear) begin
-            instruction_buffer <= 8'b0;
+            instruction_reg <= 8'b0;
         end else if (write_enable) begin
-            instruction_buffer <= inout_bus_connection;
+            instruction_reg <= inout_bus_connection;
         end
     end
 
-    assign operation_code = instruction_buffer[7:4];
-    assign inout_bus_connection = (output_enable & ~write_enable) ? instruction_buffer : 8'bZ;
+    assign operation_code = instruction_reg[7:4];
+    assign inout_bus_connection = (output_enable & ~write_enable) ? instruction_reg : 8'bZ;
 
 endmodule

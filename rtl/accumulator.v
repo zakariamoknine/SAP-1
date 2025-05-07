@@ -8,15 +8,15 @@ module accumulator (
     inout wire[7:0] inout_bus_connection
 );
 
-    reg[7:0] accumulator_buffer;
+    reg[7:0] accumulator_reg;
 
     always @(posedge clk) begin
         if (write_enable) begin
-            accumulator_buffer <= inout_bus_connection;
+            accumulator_reg <= inout_bus_connection;
         end
     end
 
-    assign arithmetic_value = accumulator_buffer;
-    assign inout_bus_connection = (output_enable & ~write_enable) ? accumulator_buffer : 8'bZ;
+    assign arithmetic_value = accumulator_reg;
+    assign inout_bus_connection = (output_enable & ~write_enable) ? accumulator_reg : 8'bZ;
 
 endmodule

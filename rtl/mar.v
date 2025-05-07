@@ -7,14 +7,14 @@ module mar (
     output wire[3:0] address_value
 );
 
-    reg[3:0] mar_buffer;
+    reg[3:0] mar_reg;
 
     always @(posedge clk) begin
         if (write_enable) begin
-           mar_buffer <= input_bus_connection[3:0];
+           mar_reg <= input_bus_connection[3:0];
         end
     end
 
-    assign address_value = mar_buffer;
+    assign address_value = mar_reg;
 
 endmodule

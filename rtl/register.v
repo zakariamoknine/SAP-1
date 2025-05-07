@@ -7,14 +7,14 @@ module register (
     output wire[7:0] arithmetic_value
 );
 
-    reg[7:0] register_buffer;
+    reg[7:0] register_reg;
 
     always @(posedge clk) begin
         if (write_enable) begin
-           register_buffer <= input_bus_connection;
+           register_reg <= input_bus_connection;
         end
     end
 
-    assign arithmetic_value = register_buffer;
+    assign arithmetic_value = register_reg;
 
 endmodule
