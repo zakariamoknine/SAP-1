@@ -51,7 +51,7 @@ _start:     ; entry point must exist with the label _start
 
 For simulation, you'll need to install [iverilog](https://github.com/steveicarus/iverilog) and [cocotb](https://docs.cocotb.org/en/stable/install.html).
 
-You will also need a C compiler (e.g., `gcc`, `clang`) - for compiling the assembler, by default gcc is used, but you can configure assembler/Makefile to use a different compiler.
+You will also need a C compiler (e.g., `gcc`, `clang`) - for compiling the assembler, by default gcc is used, but you can configure `assembler/Makefile` to use a different compiler.
 
 You can:
 - Compile the assembler
