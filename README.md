@@ -49,7 +49,7 @@ _start:     ; entry point must exist with the label _start
 
 # Usage
 
-For simulation, you'll need to install [iverilog](https://github.com/steveicarus/iverilog) and optionally [gtkwave](https://github.com/gtkwave/gtkwave) for viewing waveform files.
+For simulation, you'll need to install [iverilog](https://github.com/steveicarus/iverilog) and cocotb [cocotb](https://docs.cocotb.org/en/stable/install.html).
 
 You will also need a C compiler (e.g., `gcc`, `clang`) - for compiling the assembler, by default gcc is used, but you can configure assembler/Makefile to use a different compiler.
 
@@ -58,7 +58,6 @@ You can:
 - Assemble the tests (add.asm, sub.asm and arith.asm)
 - Simulate the tests
 - Display test results
-- Generate waveforms
 
 By simply running
 
@@ -75,11 +74,4 @@ You can run specific tests individually, for example to test `add.asm` run
 
 ```bash
 $ make test_add
-```
-
-
-To view waveforms using `gtkwave` run
-
-```bash
-$ make show_add
 ```
