@@ -315,17 +315,14 @@ static int _assembler_parse_arguments(int argc, char** argv)
 {
     if (argc == 1) {
         fprintf(stderr, "ERROR: No input, provide a single assembly file and the ouput file\n");
-        fprintf(stderr, "\nExample:\n$ ./sap1-asm file_dir/file.asm output_dir/output.bin\n");
         return SAP1_FALSE;
     }
     else if (argc == 2) {
         fprintf(stderr, "ERROR: A single file provided, provide a single assembly file AND the ouput file\n");
-        fprintf(stderr, "\nExample:\n$ ./sap1-asm file_dir/file.asm output_dir/output.bin\n");
         return SAP1_FALSE;
     }
     else if (argc > 3) {
         fprintf(stderr, "ERROR: Too many arguments, provide a single asssembly file and the output file\n");
-        fprintf(stderr, "\nExample:\n$ ./sap1-asm file_dir/file.asm output_dir/output.bin\n");
         return SAP1_FALSE;
     }
     _assembler.filepath = argv[1];
