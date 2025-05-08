@@ -1,21 +1,17 @@
 RTLSRC := $(wildcard rtl/*.v)
-ASMBIN := sap1-asm
 
 all: test_add test_sub test_arith
 
-asm:
-	make -C assembler
-
-test_%: asm
+compile:
 	mkdir -p out/bin/
-	./out/bin/$(ASMBIN) testbench/assembly/$*.asm out/bin/$*.bin
-	iverilog $(RTLSRC) testbench/$*_tb.v -o out/$*_design
-	vvp out/$*_design
+	make -C assembler
+	iverilog -o out/cpu_design.vvp -s cpu -g2012 $(RTLSRC)
 
-show_%:
-	gtkwave out/$*_wave.vcd
+test_%: compile
+	./out/bin/sap1-asm testbench/assembly/$*.asm out/bin/$*.bin
+	MODULE=testbench.test_$* vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus out/cpu_design.vvp
 
 clean:
-	rm -rf out
+	rm -rf out/ results.xml
 
-.PHONY: all asm clean
+.PHONY: all compile clean
