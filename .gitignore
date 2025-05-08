@@ -1,1 +1,5 @@
 out/
+venv/
+*/**/__pycache__/
+
+results.xml
