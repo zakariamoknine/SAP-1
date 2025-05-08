@@ -47,7 +47,7 @@ _start:     ; entry point must exist with the label _start
     HLT     ; halt the CPU
 ```
 
-# Usage
+# Simulation
 
 For simulation, you'll need to install [iverilog](https://github.com/steveicarus/iverilog) and [cocotb](https://docs.cocotb.org/en/stable/install.html).
 
