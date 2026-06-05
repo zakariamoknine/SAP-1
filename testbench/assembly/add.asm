@@ -1,9 +1,9 @@
-.data
+	.data
 
 a = 19
 b = 43
 
-.text
+	.text
 
 _start:
 	LDA a 

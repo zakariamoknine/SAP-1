@@ -1,4 +1,4 @@
-.data
+	.data
 
 a = 65
 b = 98
@@ -8,7 +8,7 @@ e = 144
 f = 54
 g = 78
 
-.text
+	.text
 
 _start:
 	LDA a
