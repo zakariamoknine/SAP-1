@@ -4,7 +4,7 @@ from .init import init_test
 
 @cocotb.test()
 async def test_sub(dut):
-    await init_test(dut, "out/bin/sub.bin")
+    await init_test(dut, "build/bin/sub.bin")
 
     for _ in range(100):
         await RisingEdge(dut.clk)
