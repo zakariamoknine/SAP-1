@@ -343,6 +343,7 @@ int main(int argc, char** argv)
     if (!_assembler_parse_arguments(argc, argv)) { return SAP1_EXIT_FAILURE; }
     if (!_assembler_lex()) { return SAP1_EXIT_FAILURE; }
     if (!_assembler_parse()) { return SAP1_EXIT_FAILURE; }
+
     _assembler_gen_binary();
 
     return SAP1_EXIT_SUCCESS;
