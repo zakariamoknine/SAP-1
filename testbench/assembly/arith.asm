@@ -11,12 +11,12 @@ g = 78
 .text
 
 _start:
-    LDA a
-    ADD b
-    SUB c
-    ADD d
-    SUB e
-    ADD f
-    SUB g
-    OUT
-    HLT
+	LDA a
+	ADD b
+	SUB c
+	ADD d
+	SUB e
+	ADD f
+	SUB g
+	OUT
+	HLT
